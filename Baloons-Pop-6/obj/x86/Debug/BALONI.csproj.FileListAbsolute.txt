@@ -1,0 +1,5 @@
+E:\SoftUni\HighQualityCourse\Baloons-Pop\Baloons-Pop-6\bin\Debug\ConsoleApplication1.exe
+E:\SoftUni\HighQualityCourse\Baloons-Pop\Baloons-Pop-6\bin\Debug\ConsoleApplication1.pdb
+E:\SoftUni\HighQualityCourse\Baloons-Pop\Baloons-Pop-6\obj\x86\Debug\BALONI.csprojResolveAssemblyReference.cache
+E:\SoftUni\HighQualityCourse\Baloons-Pop\Baloons-Pop-6\obj\x86\Debug\ConsoleApplication1.exe
+E:\SoftUni\HighQualityCourse\Baloons-Pop\Baloons-Pop-6\obj\x86\Debug\ConsoleApplication1.pdb
