@@ -1,0 +1,7 @@
+C:\Users\Stan\Desktop\MALEFICENT\Balloons-Pops-Six\BalloonsPopsTests\bin\Debug\BalloonsPopsTests.dll
+C:\Users\Stan\Desktop\MALEFICENT\Balloons-Pops-Six\BalloonsPopsTests\bin\Debug\BalloonsPopsTests.pdb
+C:\Users\Stan\Desktop\MALEFICENT\Balloons-Pops-Six\BalloonsPopsTests\bin\Debug\BalloonsPopsGame.exe
+C:\Users\Stan\Desktop\MALEFICENT\Balloons-Pops-Six\BalloonsPopsTests\bin\Debug\BalloonsPopsGame.pdb
+C:\Users\Stan\Desktop\MALEFICENT\Balloons-Pops-Six\BalloonsPopsTests\obj\Debug\BalloonsPopsTests.csprojResolveAssemblyReference.cache
+C:\Users\Stan\Desktop\MALEFICENT\Balloons-Pops-Six\BalloonsPopsTests\obj\Debug\BalloonsPopsTests.dll
+C:\Users\Stan\Desktop\MALEFICENT\Balloons-Pops-Six\BalloonsPopsTests\obj\Debug\BalloonsPopsTests.pdb
