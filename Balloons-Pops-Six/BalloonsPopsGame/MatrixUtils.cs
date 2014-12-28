@@ -4,8 +4,8 @@
 
     public class MatrixUtils
     {
-        private const byte Rows = 5;
-        private const byte Columns = 10;
+        public const byte Rows = 5;
+        public const byte Columns = 10;
 
         public static byte[,] CreateMatrix()
         {
@@ -31,7 +31,7 @@
             }
 
             Console.Write("{0}{1, 3}", "\n", " ");
-            PrintDash();
+            Console.Write(new string('-', (Columns * 2) + 1));
 
             Console.WriteLine();
 
@@ -54,17 +54,26 @@
             }
 
             Console.Write("{0, 3}", " ");
-            PrintDash();
+            Console.Write(new string('-', (Columns * 2) + 1));
 
             Console.WriteLine();
         }
 
-        private static void PrintDash()
+        public static bool CheckMatrixIsEmpty(byte[,] matrix)
         {
-            for (byte column = 0; column < (Columns * 2) + 1; column++)
+            bool isEmpty = true;
+            for (int row = 0; row < Rows; row++)
             {
-                Console.Write("-");
+                for (int col = 0; col < Columns; col++)
+                {
+                    if (matrix[row, col] != 0)
+                    {
+                        isEmpty = false;
+                    }
+                }
             }
+
+            return isEmpty;
         }
     }
 }

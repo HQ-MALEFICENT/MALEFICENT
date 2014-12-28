@@ -4,18 +4,18 @@ namespace BalloonsPopsGame
 {
     public class NameValuePair : IComparable<NameValuePair>
     {
-        public int val;
-        public string name;
+        public int moves;
+        public string username;
 
-        public NameValuePair(int value, string name)
+        public NameValuePair(int moves, string username)
         {
-            val = value;
-            name = name;
+            this.moves = moves;
+            this.username = username;
         }
 
         public int CompareTo(NameValuePair other)
         {
-            return val.CompareTo(other.val);
+            return this.moves.CompareTo(other.moves);
         }
     }
 }

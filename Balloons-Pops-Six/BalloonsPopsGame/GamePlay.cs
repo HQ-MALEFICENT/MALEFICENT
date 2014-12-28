@@ -3,10 +3,9 @@
     using System;
     using System.Collections.Generic;
 
-    class GamePlay
+    public class GamePlay
     {
-
-        static void checkLeft(byte[,] matrix, int row, int column, int searchedItem)
+        static void CheckLeftNeighbor(byte[,] matrix, int row, int column, int searchedItem)
         {
             int newRow = row;
             int newColumn = column - 1;
@@ -14,16 +13,18 @@
             {
                 if (matrix[newRow, newColumn] == searchedItem)
                 {
-                    matrix[newRow, newColumn] = 0; checkLeft(matrix, newRow, newColumn, searchedItem);
+                    matrix[newRow, newColumn] = 0;
+                    CheckLeftNeighbor(matrix, newRow, newColumn, searchedItem);
                 }
-                else return;
             }
-            catch (IndexOutOfRangeException)
-            { return; }
 
+            catch (IndexOutOfRangeException)
+            {
+                return;
+            }
         }
 
-        static void checkRight(byte[,] matrix, int row, int column, int searchedItem)
+        static void CheckRightNeighbor(byte[,] matrix, int row, int column, int searchedItem)
         {
             int newRow = row;
             int newColumn = column + 1;
@@ -32,15 +33,16 @@
                 if (matrix[newRow, newColumn] == searchedItem)
                 {
                     matrix[newRow, newColumn] = 0;
-                    checkRight(matrix, newRow, newColumn, searchedItem);
+                    CheckRightNeighbor(matrix, newRow, newColumn, searchedItem);
                 }
-                else return;
             }
             catch (IndexOutOfRangeException)
-            { return; }
-
+            {
+                return;
+            }
         }
-        static void checkUp(byte[,] matrix, int row, int column, int searchedItem)
+
+        static void CheckUpNeighbor(byte[,] matrix, int row, int column, int searchedItem)
         {
             int newRow = row + 1;
             int newColumn = column;
@@ -49,15 +51,16 @@
                 if (matrix[newRow, newColumn] == searchedItem)
                 {
                     matrix[newRow, newColumn] = 0;
-                    checkUp(matrix, newRow, newColumn, searchedItem);
+                    CheckUpNeighbor(matrix, newRow, newColumn, searchedItem);
                 }
-                else return;
             }
             catch (IndexOutOfRangeException)
-            { return; }
+            {
+                return;
+            }
         }
 
-        static void checkDown(byte[,] matrix, int row, int column, int searchedItem)
+        static void CheckDownNeighbor(byte[,] matrix, int row, int column, int searchedItem)
         {
             int newRow = row - 1;
             int newColumn = column;
@@ -66,59 +69,60 @@
                 if (matrix[newRow, newColumn] == searchedItem)
                 {
                     matrix[newRow, newColumn] = 0;
-                    checkDown(matrix, newRow, newColumn, searchedItem);
+                    CheckDownNeighbor(matrix, newRow, newColumn, searchedItem);
                 }
-                else return;
             }
             catch (IndexOutOfRangeException)
-            { return; }
-
-        }
-        static bool change(byte[,] matrixToModify, int rowAtm, int columnAtm)
-        {
-            if (matrixToModify[rowAtm, columnAtm] == 0)
             {
-                return true;
+                return;
             }
-            byte searchedTarget = matrixToModify[rowAtm, columnAtm];
-            matrixToModify[rowAtm, columnAtm] = 0;
-            checkLeft(matrixToModify, rowAtm, columnAtm, searchedTarget);
-            checkRight(matrixToModify, rowAtm, columnAtm, searchedTarget);
-
-
-            checkUp(matrixToModify, rowAtm, columnAtm, searchedTarget);
-            checkDown(matrixToModify, rowAtm, columnAtm, searchedTarget);
-            return false;
         }
 
-        static bool doit(byte[,] matrix)
+        static void PopBalloon(byte[,] matrix, int row, int column)
         {
-            bool isWinner = true;
-            Stack<byte> stek = new Stack<byte>();
-            int columnLenght = matrix.GetLength(0);
-            for (int j = 0; j < matrix.GetLength(1); j++)
+            if (matrix[row, column] == 0)
             {
-                for (int i = 0; i < columnLenght; i++)
+                Console.WriteLine("Illegal move: cannot pop missing balloon!");
+            }
+            else
+            {
+                byte searchedItem = matrix[row, column];
+                matrix[row, column] = 0;
+                CheckLeftNeighbor(matrix, row, column, searchedItem);
+                CheckRightNeighbor(matrix, row, column, searchedItem);
+                CheckUpNeighbor(matrix, row, column, searchedItem);
+                CheckDownNeighbor(matrix, row, column, searchedItem);
+            }
+        }
+
+        static void FallingDownBalloons(byte[,] matrix)
+        {
+            byte[,] newMatrix = matrix;
+            Stack<byte> stack = new Stack<byte>();
+            for (int col = 0; col < MatrixUtils.Columns; col++)
+            {
+                for (int row = 0; row < MatrixUtils.Rows; row++)
                 {
-                    if (matrix[i, j] != 0)
+                    if (matrix[row, col] != 0)
                     {
-                        isWinner = false;
-                        stek.Push(matrix[i, j]);
+                        stack.Push(matrix[row, col]);
                     }
                 }
-                for (int k = columnLenght - 1; (k >= 0); k--)
+
+                for (int row = MatrixUtils.Rows - 1; row >= 0; row--)
                 {
                     try
                     {
-                        matrix[k, j] = stek.Pop();
+                        newMatrix[row, col] = stack.Pop();
                     }
                     catch (Exception)
                     {
-                        matrix[k, j] = 0;
+                        matrix[row, col] = 0;
                     }
                 }
             }
-            return isWinner;
+
+            MatrixUtils.PrintMatrix(newMatrix);
         }
 
         static void sortAndPrintChartFive(string[,] tableToSort)
@@ -147,9 +151,9 @@
             for (int i = 0; i < klasirane.Count; ++i)
             {
                 NameValuePair slot = klasirane[i];
-                Console.WriteLine("{2}.   {0} with {1} moves.", slot.name, slot.val, i + 1);
+                Console.WriteLine("{2}. {0} with {1} moves.", slot.username, slot.moves, i + 1);
             }
-            Console.WriteLine("----------------------------------");
+            Console.WriteLine(new string('-', 34));
 
 
         }
@@ -193,9 +197,9 @@
             return Skilled;
         }
 
-        public static void ProcessGame(string temp, string[,] topFive, ref byte[,] matrix, ref int userMoves)
+        public static void ProcessGame(string input, string[,] topFive, ref byte[,] matrix, ref int userMoves)
         {
-            switch (temp)
+            switch (input)
             {
                 case "RESTART":
                     StartGame.Start();
@@ -203,31 +207,23 @@
                 case "TOP":
                     sortAndPrintChartFive(topFive);
                     break;
-                case "EXIT": Console.WriteLine("Good Bye!");
+                case "EXIT":
+                    Console.WriteLine("Good Bye!");
                     Environment.Exit(0);
                     break;
                 default:
-                    if ((temp.Length == 3) && (temp[0] >= '0' && temp[0] <= '9') && (temp[2] >= '0' && temp[2] <= '9')
-                        && (temp[1] == ' ' || temp[1] == '.' || temp[1] == ','))
+                    if ((input.Length == 3) && (input[0] >= '0' && input[0] <= '4') && (input[2] >= '0' && input[2] <= '9')
+                        && (input[1] == ' ' || input[1] == '.' || input[1] == ','))
                     {
-                        int userRow, userColumn;
-                        userRow = int.Parse(temp[0].ToString());
-                        if (userRow > 4)
-                        {
-                            Console.WriteLine("Invalid move or command!");
-                            return;
-                        }
-                        userColumn = int.Parse(temp[2].ToString());
+                        int userRow = (int)char.GetNumericValue(input[0]);
+                        int userColumn = (int)char.GetNumericValue(input[2]);
 
-                        if (change(matrix, userRow, userColumn))
-                        {
-                            Console.WriteLine("Illegal move: cannot pop missing balloon!");
-                            return;
-                        }
+                        PopBalloon(matrix, userRow, userColumn);
                         userMoves++;
-                        if (doit(matrix))
+
+                        if (MatrixUtils.CheckMatrixIsEmpty(matrix))
                         {
-                            Console.WriteLine("Congratulations! You popped all baloons in {0} moves.", userMoves);
+                            Console.WriteLine("Congratulations! You popped all balloons in {0} moves.", userMoves);
                             if (signIfSkilled(topFive, userMoves))
                             {
                                 sortAndPrintChartFive(topFive);
@@ -236,10 +232,11 @@
                             {
                                 Console.WriteLine("I am sorry you are not skillful enough for TopFive chart!");
                             }
-                            matrix = MatrixUtils.CreateMatrix();
-                            userMoves = 0;
                         }
-                        MatrixUtils.PrintMatrix(matrix);
+                        else
+                        {
+                            FallingDownBalloons(matrix);
+                        }
                     }
                     else
                     {
